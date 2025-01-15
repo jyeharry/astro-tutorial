@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const posts = Object.values(import.meta.glob("../posts/*.md", { eager: true }));
+
+const tags = [
+  ...new Set(posts.map((post: any) => post.frontmatter.tags).flat()),
+];
+---
+
+<BaseLayout pageTitle="Tag Index">
+  <ul class="tags" role="list">
+    {
+      tags.map((tag) => (
+        <li class="tag">
+          <a href={`/tags/${tag}`}>{tag}</a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <style>
+    a {
+      color: #00539f;
+    }
+
+    ul[role="list"],
+    ol[role="list"] {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      margin: 0.25em;
+      border: dotted 1px #a1a1a1;
+      border-radius: 0.5em;
+      padding: 0.5em 1em;
+      font-size: 1.15em;
+      background-color: #f8fcfd;
+    }
+  </style>
+</BaseLayout>
